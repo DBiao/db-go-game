@@ -4,8 +4,6 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/gob"
-	"lark/pkg/proto/pb_enum"
-	"lark/pkg/proto/pb_msg"
 	"unsafe"
 )
 
@@ -124,44 +122,44 @@ func OldDecode(buf []byte) (topic uint32, subtopic uint32, body []byte) {
 	return
 }
 
-func Decode(buf []byte) (msg *pb_msg.Packet, endNode uint32) {
-	msg = new(pb_msg.Packet)
-	var (
-		totalLength  uint32
-		lengthBuff   []byte
-		length       uint32
-		topicBuff    []byte
-		topic        uint32
-		subtopicBuff []byte
-		subtopic     uint32
-		msgTypeBuff  []byte
-		msgType      uint32
-		body         []byte
-	)
-
-	totalLength = uint32(len(buf))
-	if totalLength < MessageType {
-		return
-	}
-	lengthBuff = buf[:MessageLength]
-	length = binary.LittleEndian.Uint32(lengthBuff)
-	endNode = MessageType + length
-	if totalLength < endNode {
-		return
-	}
-	topicBuff = buf[MessageLength:MessageTopic]
-	topic = binary.LittleEndian.Uint32(topicBuff)
-
-	subtopicBuff = buf[MessageTopic:MessageSubtopic]
-	subtopic = binary.LittleEndian.Uint32(subtopicBuff)
-
-	msgTypeBuff = buf[MessageSubtopic:MessageType]
-	msgType = binary.LittleEndian.Uint32(msgTypeBuff)
-
-	body = buf[MessageType:endNode]
-	msg.Topic = pb_enum.TOPIC(topic)
-	msg.SubTopic = pb_enum.SUB_TOPIC(subtopic)
-	msg.MsgType = pb_enum.MESSAGE_TYPE(msgType)
-	msg.Data = body
-	return
-}
+//func Decode(buf []byte) (msg *pb_msg.Packet, endNode uint32) {
+//	msg = new(pb_msg.Packet)
+//	var (
+//		totalLength  uint32
+//		lengthBuff   []byte
+//		length       uint32
+//		topicBuff    []byte
+//		topic        uint32
+//		subtopicBuff []byte
+//		subtopic     uint32
+//		msgTypeBuff  []byte
+//		msgType      uint32
+//		body         []byte
+//	)
+//
+//	totalLength = uint32(len(buf))
+//	if totalLength < MessageType {
+//		return
+//	}
+//	lengthBuff = buf[:MessageLength]
+//	length = binary.LittleEndian.Uint32(lengthBuff)
+//	endNode = MessageType + length
+//	if totalLength < endNode {
+//		return
+//	}
+//	topicBuff = buf[MessageLength:MessageTopic]
+//	topic = binary.LittleEndian.Uint32(topicBuff)
+//
+//	subtopicBuff = buf[MessageTopic:MessageSubtopic]
+//	subtopic = binary.LittleEndian.Uint32(subtopicBuff)
+//
+//	msgTypeBuff = buf[MessageSubtopic:MessageType]
+//	msgType = binary.LittleEndian.Uint32(msgTypeBuff)
+//
+//	body = buf[MessageType:endNode]
+//	msg.Topic = pb_enum.TOPIC(topic)
+//	msg.SubTopic = pb_enum.SUB_TOPIC(subtopic)
+//	msg.MsgType = pb_enum.MESSAGE_TYPE(msgType)
+//	msg.Data = body
+//	return
+//}
