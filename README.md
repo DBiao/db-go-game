@@ -18,3 +18,10 @@
 | 14 | GORM                 | v1.23.8         | ORM           | https://gorm.io/                           |
 
 
+### 项目目录简介
+项目结构遵循：https://github.com/golang-standards/project-layout
+
+
+### 项目代码规范
+google代码规范：https://google.github.io/styleguide/go/guide
+uber代码规范：https://github.com/xxjwxc/uber_go_guide_cn
