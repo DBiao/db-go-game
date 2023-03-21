@@ -8,7 +8,6 @@ for (( i=0; i <= $length; i++ )); do
   if [ -z "$proto" ]; then
     continue
   fi
-#  protoc -I ../../../ -I ./ --go_out=plugins=grpc:. $proto
   protoc --go_out=. --go_opt=paths=source_relative  --go-grpc_out=. --go-grpc_opt=paths=source_relative $proto
   s=`echo $proto | sed 's/ //g'`
   v=${s//proto/pb.go}

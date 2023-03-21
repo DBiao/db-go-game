@@ -1,0 +1,16 @@
+syntax ="proto3";
+package logic;
+option go_package = "./logic";
+
+message KickOffLineReq {
+  uint64 user_id = 1;
+}
+
+message KickOffLineResp {
+  int32 code = 1;
+  string msg = 2;
+}
+
+service Api {
+  rpc KickOffLine(KickOffLineReq)  returns(KickOffLineResp);
+}
