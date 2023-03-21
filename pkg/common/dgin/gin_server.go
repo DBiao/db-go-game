@@ -1,10 +1,8 @@
-package xgin
+package dgin
 
 import (
-	"db-go-game/pkg/middleware"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	_ "net/http/pprof"
 	"strconv"
 )
 
@@ -21,7 +19,7 @@ func NewGinServer() *GinServer {
 	// 1、使用 Recovery 中间件
 	engine.Use(gin.Recovery())
 	// 2、跨域
-	engine.Use(middleware.Cors())
+	//engine.Use(middleware.Cors())
 	return &GinServer{engine}
 }
 

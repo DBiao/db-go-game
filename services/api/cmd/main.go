@@ -2,11 +2,9 @@ package main
 
 import (
 	"db-go-game/pkg/commands"
-	"db-go-game/services/api/dig"
+	"db-go-game/services/api/internal/server"
 )
 
 func main() {
-	dig.Invoke(func(srv commands.MainInstance) {
-		commands.Run(srv)
-	})
+	commands.Run(server.NewServer())
 }

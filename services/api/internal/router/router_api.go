@@ -24,5 +24,5 @@ func registerPrivateRouter(group *gin.RouterGroup) {
 		userController = u
 	})
 
-	group.POST("login", userController.Login)
+	group.POST("login", userController.SignIn)
 }

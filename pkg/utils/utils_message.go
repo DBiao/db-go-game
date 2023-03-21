@@ -54,6 +54,16 @@ func GroupChatSessionKey(chatId int64, uid int64) string {
 //		)
 //		proto.Unmarshal(buf, content)
 //		str = ToString(content)
+//	case pb_enum.MSG_TYPE_JOINED_GROUP_CHAT:
+//		var (
+//			content = new(pb_msg.JoinedGroupChatMessage)
+//		)
+//		proto.Unmarshal(buf, content)
+//		str = ToString(content)
+//	case pb_enum.MSG_TYPE_ACCEPTED_CHAT_INVITE, pb_enum.MSG_TYPE_CHAT_INVITE_MSG, pb_enum.MSG_TYPE_QUIT_GROUP_CHAT, pb_enum.MSG_TYPE_REMOVE_CHAT_MEMBER:
+//		str = Bytes2Str(buf)
+//	default:
+//		str = Bytes2Str(buf)
 //	}
 //	return
 //}

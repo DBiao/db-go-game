@@ -1,17 +1,17 @@
-package xhttp
+package dhttp
 
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
-type RespInfo struct {
+type Result struct {
 	Msg  string `json:"msg"`
 	Code int32  `json:"code"`
 }
 
 type Resp struct {
-	RespInfo
+	Result
 	Data interface{}
 }
 
@@ -23,7 +23,6 @@ func Success(ctx *gin.Context, data ...interface{}) {
 		})
 		return
 	}
-
 	ctx.JSON(http.StatusOK, gin.H{
 		"code": 0,
 		"msg":  "success",
@@ -38,7 +37,7 @@ func Error(ctx *gin.Context, code int32, err string) {
 	})
 }
 
-func (r *Resp) SetRespInfo(code int32, msg string) {
+func (r *Resp) SetResult(code int32, msg string) {
 	r.Code = code
 	r.Msg = msg
 }

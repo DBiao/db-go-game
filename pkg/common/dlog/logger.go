@@ -250,7 +250,7 @@ func prettyCaller(file string, line int) string {
 	return fmt.Sprintf("%s:%d", file[idx+1:], line)
 }
 
-func xLogger() *zap.SugaredLogger {
+func dLogger() *zap.SugaredLogger {
 	if xLog == nil {
 		Shared(DefaultConfig, DefaultDirectory)
 	}
@@ -258,21 +258,25 @@ func xLogger() *zap.SugaredLogger {
 }
 
 func Debug(args ...interface{}) {
-	xLogger().Debug(args...)
+	dLogger().Debug(args...)
 }
 
 func Info(args ...interface{}) {
-	xLogger().Info(args...)
+	dLogger().Info(args...)
 }
 
 func Warn(args ...interface{}) {
-	xLogger().Warn(args...)
+	dLogger().Warn(args...)
 }
 
 func Error(args ...interface{}) {
-	xLogger().Error(args...)
+	dLogger().Error(args...)
+}
+
+func Errorf(template string, args ...interface{}) {
+	dLogger().Errorf(template, args)
 }
 
 func Panic(args ...interface{}) {
-	xLogger().Panic(args...)
+	dLogger().Panic(args...)
 }

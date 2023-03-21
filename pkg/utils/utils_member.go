@@ -11,3 +11,30 @@ func MemberHash(uid1 int64, uid2 int64) string {
 	}
 	return MD5(sessionKey)
 }
+
+//func ChatStatus(in interface{}) (status pb_enum.CHAT_STATUS) {
+//	var (
+//		str string
+//		arr []string
+//		val int
+//	)
+//	str = ToString(in)
+//	arr = strings.Split(str, ",")
+//	if len(arr) == 4 {
+//		val, _ = ToInt(arr[3])
+//		status = pb_enum.CHAT_STATUS(val)
+//	}
+//	return
+//}
+
+func StrUidList(uidList []int64) (list []string) {
+	var (
+		i   int
+		uid int64
+	)
+	list = make([]string, len(uidList))
+	for i, uid = range uidList {
+		list[i] = Int64ToStr(uid)
+	}
+	return
+}

@@ -2,23 +2,23 @@ package server
 
 import (
 	"db-go-game/pkg/commands"
+	"db-go-game/pkg/common/dgin"
 	"db-go-game/pkg/common/dlog"
 	"db-go-game/pkg/common/dmysql"
 	"db-go-game/pkg/common/dredis"
-	"db-go-game/pkg/common/xgin"
 	"db-go-game/services/api/internal/config"
 	"db-go-game/services/api/internal/router"
 	"flag"
 )
 
-var portConf = flag.Int("p", 18080, "gateway default listen port 10080")
+var portConf = flag.Int("p", 18080, "api default listen port 18080")
 
 type server struct {
-	ginServer *xgin.GinServer
+	ginServer *dgin.GinServer
 }
 
-func NewServer(gin *xgin.GinServer) commands.MainInstance {
-	return &server{ginServer: gin}
+func NewServer() commands.MainInstance {
+	return &server{}
 }
 
 func (s *server) Initialize() (err error) {
@@ -26,6 +26,7 @@ func (s *server) Initialize() (err error) {
 	dlog.Shared(conf.Log, conf.Name)
 	dmysql.NewMysqlClient(conf.Mysql)
 	dredis.NewRedisClient(conf.Redis)
+	s.ginServer = dgin.NewGinServer()
 	router.Register(s.ginServer.Engine)
 	return
 }
