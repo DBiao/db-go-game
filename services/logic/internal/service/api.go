@@ -6,6 +6,8 @@ import (
 	"google.golang.org/grpc"
 )
 
+var count int
+
 type IApiService interface {
 	KickOffLine(ctx context.Context, in *logic.KickOffLineReq, opts ...grpc.CallOption) (*logic.KickOffLineResp, error)
 }
@@ -18,6 +20,6 @@ func NewAuthService() IApiService {
 }
 
 func (a *apiService) KickOffLine(ctx context.Context, in *logic.KickOffLineReq, opts ...grpc.CallOption) (*logic.KickOffLineResp, error) {
-
-	return &logic.KickOffLineResp{Code: 1000}, nil
+	count++
+	return &logic.KickOffLineResp{Code: int32(count)}, nil
 }

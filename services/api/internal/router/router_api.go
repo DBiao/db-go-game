@@ -19,8 +19,8 @@ func registerPublicRoutes(group *gin.RouterGroup) {
 }
 
 func registerPrivateRouter(group *gin.RouterGroup) {
-	var userController controller.IUserController
-	dig.Invoke(func(u controller.IUserController) {
+	var userController controller.IAuthController
+	dig.Invoke(func(u controller.IAuthController) {
 		userController = u
 	})
 

@@ -8,14 +8,15 @@ import (
 )
 
 type Config struct {
-	Name   string       `yaml:"name"`
-	Port   int          `yaml:"port"`
-	WorkId int          `yaml:"work-id"`
-	Log    string       `yaml:"log"`
-	Etcd   *conf.Etcd   `yaml:"etcd"`
-	Redis  *conf.Redis  `yaml:"redis"`
-	Mysql  *conf.Mysql  `yaml:"mysql"`
-	Jaeger *conf.Jaeger `yaml:"jaeger"`
+	Name        string           `yaml:"name"`
+	Port        int              `yaml:"port"`
+	WorkId      int              `yaml:"work-id"`
+	Log         string           `yaml:"log"`
+	LogicServer *conf.GrpcServer `yaml:"logic_server"`
+	Etcd        *conf.Etcd       `yaml:"etcd"`
+	Redis       *conf.Redis      `yaml:"redis"`
+	Mysql       *conf.Mysql      `yaml:"mysql"`
+	Jaeger      *conf.Jaeger     `yaml:"jaeger"`
 }
 
 var (

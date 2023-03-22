@@ -9,5 +9,4 @@ func main() {
 	dig.Invoke(func(svc commands.MainInstance) {
 		commands.Run(svc)
 	})
-
 }

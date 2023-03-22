@@ -11,8 +11,8 @@ import (
 var container = dig.New()
 
 func init() {
-	container.Provide(controller.NewUserController)
-	container.Provide(service.NewUserService)
+	container.Provide(controller.NewAuthController)
+	container.Provide(service.NewAuthService)
 	container.Provide(dao.NewAuthRepository)
 	container.Provide(dgin.NewGinServer)
 }

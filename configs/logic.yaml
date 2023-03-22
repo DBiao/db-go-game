@@ -1,9 +1,9 @@
-name: lark_test
+name: logic
 work-id: 2
 port: 10001
 log: "./configs/logic.yaml"
 grpc_server:
-  name: lark_test
+  name: logic
   server_id: 1
   port: 19999
   max_connection_idle: 0
@@ -33,7 +33,7 @@ etcd:
 mysql:
   address: "lark-mysql-user:13306"
   username: root
-  password: lark2022
+  password: root
   db: lark_user
   max_open_conn: 20
   max_idle_conn: 10
@@ -42,5 +42,5 @@ mysql:
 redis:
   address: ["lark-redis:63791"]
   db: 0
-  password: lark2022
+  password: root
   prefix: "LK:"
