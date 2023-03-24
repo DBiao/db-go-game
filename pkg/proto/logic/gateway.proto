@@ -1,0 +1,16 @@
+syntax ="proto3";
+package logic;
+option go_package = "./logic";
+
+message GatewayKickOffLineReq {
+  uint64 user_id = 1;
+}
+
+message GatewayKickOffLineResp {
+  int32 code = 1;
+  string msg = 2;
+}
+
+service Gateway {
+  rpc KickOffLine(GatewayKickOffLineReq)  returns(GatewayKickOffLineResp);
+}

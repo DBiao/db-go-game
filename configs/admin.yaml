@@ -1,0 +1,25 @@
+name: api
+work-id: 1
+port: 10001
+log: "./configs/api.yaml"
+logic_server:
+  name: logic
+  cert:
+    cert_file: ./configs/tls/grpc/server.pem
+    enabled: true
+    server_name_override: logic
+etcd:
+  endpoints: ["172.21.219.70:20000","172.21.219.70:20002","172.21.219.70:20004"]
+  schema: game
+  read_timeout: 5000
+  write_timeout: 5000
+  dial_timeout: 5000
+jaeger:
+  host_port: "172.21.219.70:6831"
+  sampler_type: "const"
+  param: 1
+  log_spans: true
+  buffer_flush_interval: 1
+  max_packet_size: 0
+  enabled: false
+

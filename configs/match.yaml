@@ -1,0 +1,52 @@
+name: api
+work-id: 1
+port: 10001
+log: "./configs/api.yaml"
+grpc_server:
+  name: logic
+  server_id: 1
+  port: 19999
+  max_connection_idle: 0
+  max_connection_age: 0
+  max_connection_age_grace: 0
+  time: 7200000
+  timeout: 20000
+  connection_limit: 2000
+  streams_limit: 2000
+  max_recv_msg_size: 4096
+  credential:
+    cert_file: ./configs/tls/grpc/server.pem
+    key_file: ./configs/tls/grpc/server.key
+  jaeger:
+    host_port: "lark-jaeger:6831"
+    sampler_type: "const"
+    param: 1
+    log_spans: true
+    buffer_flush_interval: 1
+    max_packet_size: 0
+logic_server:
+  name: logic
+  cert:
+    cert_file: ./configs/tls/grpc/server.pem
+    enabled: true
+    server_name_override: logic
+etcd:
+  endpoints: ["172.21.219.70:20000","172.21.219.70:20002","172.21.219.70:20004"]
+  schema: game
+  read_timeout: 5000
+  write_timeout: 5000
+  dial_timeout: 5000
+redis:
+  address: ["172.21.219.70:6379"]
+  db: 0
+  password: root
+  prefix: "LK:"
+jaeger:
+  host_port: "172.21.219.70:6831"
+  sampler_type: "const"
+  param: 1
+  log_spans: true
+  buffer_flush_interval: 1
+  max_packet_size: 0
+  enabled: false
+

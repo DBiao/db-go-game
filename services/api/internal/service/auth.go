@@ -10,10 +10,12 @@ import (
 	"db-go-game/pkg/constant"
 	"db-go-game/pkg/dhttp"
 	"db-go-game/pkg/entity"
+	"db-go-game/pkg/proto/logic"
 	"db-go-game/pkg/utils"
-	"db-go-game/services/api/client"
 	"db-go-game/services/api/internal/config"
 	"db-go-game/services/api/internal/dto"
+	"db-go-game/services/logic/client"
+	"fmt"
 	"github.com/jinzhu/copier"
 )
 
@@ -37,7 +39,7 @@ func NewAuthService(AuthDao dao.IUserDao) IAuthService {
 	}
 }
 
-func (u *AuthService) SignUp(req *dto.SignUpReq) *dhttp.Resp {
+func (a *AuthService) SignUp(req *dto.SignUpReq) *dhttp.Resp {
 	resp := new(dhttp.Resp)
 
 	Auth := &model.User{}
@@ -45,7 +47,7 @@ func (u *AuthService) SignUp(req *dto.SignUpReq) *dhttp.Resp {
 	Auth.Uid = dsnowflake.NewSnowflakeID()
 	Auth.Password = utils.MD5(req.Password)
 
-	if err := u.userDao.Create(Auth); err != nil {
+	if err := a.userDao.Create(Auth); err != nil {
 		resp.SetResult(dhttp.ERROR_CODE_HTTP_REGISTER_FAILED, err.Error())
 		dlog.Error(dhttp.ERROR_CODE_HTTP_REGISTER_FAILED, err.Error())
 		return resp
@@ -54,7 +56,7 @@ func (u *AuthService) SignUp(req *dto.SignUpReq) *dhttp.Resp {
 	return resp
 }
 
-func (u *AuthService) SignIn(req *dto.SignInReq) *dhttp.Resp {
+func (a *AuthService) SignIn(req *dto.SignInReq) *dhttp.Resp {
 	var (
 		resp  = new(dhttp.Resp)
 		w     = entity.NewMysqlWhere()
@@ -65,7 +67,7 @@ func (u *AuthService) SignIn(req *dto.SignInReq) *dhttp.Resp {
 	w.SetFilter("account = ?", req.Account)
 	w.SetFilter("password = ?", utils.MD5(req.Password))
 
-	Auth, err := u.userDao.VerifyIdentity(w)
+	Auth, err := a.userDao.VerifyIdentity(w)
 	if err != nil {
 		resp.SetResult(dhttp.ERROR_CODE_HTTP_REGISTER_FAILED, err.Error())
 		dlog.Error(dhttp.ERROR_CODE_HTTP_REGISTER_FAILED, err.Error())
@@ -85,11 +87,19 @@ func (u *AuthService) SignIn(req *dto.SignInReq) *dhttp.Resp {
 		return resp
 	}
 
+	reqMsg := &logic.KickOffLineReq{}
+	respMsg, err := a.logicClient.KickOffLine(reqMsg)
+	if err != nil {
+		return resp
+	}
+
+	fmt.Println(respMsg.Code)
+
 	resp.Data = token
 	return resp
 }
 
-func (u *AuthService) RefreshToken(token string) *dhttp.Resp {
+func (a *AuthService) RefreshToken(token string) *dhttp.Resp {
 	resp := new(dhttp.Resp)
 
 	jwtToken, err := djwt.Decode(token)
@@ -116,7 +126,7 @@ func (u *AuthService) RefreshToken(token string) *dhttp.Resp {
 	return resp
 }
 
-func (u *AuthService) SignOut(token string) *dhttp.Resp {
+func (a *AuthService) SignOut(token string) *dhttp.Resp {
 	resp := new(dhttp.Resp)
 
 	jwtToken, err := djwt.Decode(token)
