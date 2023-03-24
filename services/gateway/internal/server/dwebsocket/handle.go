@@ -56,30 +56,25 @@ func Handle(client *Client, message []byte) {
 		return
 	}
 
-	switch request.Code {
+	var resp []byte
+	if request.Code >= 10000 && request.Code < 20000 {
 
-	}
+	} else if request.Code >= 20000 && request.Code < 30000 {
 
-	// 采用 map 注册的方式
-	value, ok := getHandlers(request.Code)
-	if !ok {
-		return
-	}
+	} else if request.Code >= 30000 && request.Code < 40000 {
 
-	resp, err := value(client, data)
-	if err != nil {
-		return
+	} else {
+		// 采用 map 注册的方式
+		value, ok := getHandlers(request.Code)
+		if !ok {
+			return
+		}
+
+		resp, err = value(client, data)
+		if err != nil {
+			return
+		}
 	}
 
 	client.SendMsg(resp)
-}
-
-func forward(code int32) {
-	if code >= 10000 && code < 20000 {
-
-	} else if code >= 20000 && code < 30000 {
-
-	} else if code >= 30000 && code < 40000 {
-
-	}
 }

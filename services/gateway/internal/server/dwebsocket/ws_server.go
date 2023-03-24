@@ -61,11 +61,13 @@ func (ws *WServer) wsHandler(ctx *gin.Context) {
 	// 验证token是否存在
 
 	clientId := ctx.Param("clientId")
-	cId, _ := strconv.Atoi(clientId)
+	cId, _ := strconv.ParseInt(clientId, 10, 64)
+
 	appId := ctx.Param("appId")
 	aId, _ := strconv.Atoi(appId)
-	client := newClient(conn, int64(cId), strconv.Itoa(aId))
+	client := newClient(conn, cId, strconv.Itoa(aId))
 
+	ClientMap.Set(cId, client)
 	client.Close()
 
 	go client.Run(conn)

@@ -2,31 +2,33 @@ package dwebsocket
 
 import "sync"
 
+var ClientMap = NewCliMap()
+
 type CliMap struct {
 	sync.RWMutex
-	m map[string]*Client
+	m map[int64]*Client
 }
 
 func NewCliMap() *CliMap {
 	return &CliMap{
-		m: make(map[string]*Client),
+		m: make(map[int64]*Client),
 	}
 }
 
-func (m *CliMap) Get(k string) (*Client, bool) {
+func (m *CliMap) Get(k int64) (*Client, bool) {
 	m.RLock()
 	defer m.RUnlock()
 	v, existed := m.m[k]
 	return v, existed
 }
 
-func (m *CliMap) Set(k string, v *Client) {
+func (m *CliMap) Set(k int64, v *Client) {
 	m.Lock()
 	defer m.Unlock()
 	m.m[k] = v
 }
 
-func (m *CliMap) Delete(k string) {
+func (m *CliMap) Delete(k int64) {
 	m.Lock()
 	defer m.Unlock()
 	delete(m.m, k)
@@ -38,7 +40,7 @@ func (m *CliMap) Len() int {
 	return len(m.m)
 }
 
-func (m *CliMap) Each(f func(k string, v *Client) bool) {
+func (m *CliMap) Each(f func(k int64, v *Client) bool) {
 	m.RLock()
 	defer m.RUnlock()
 

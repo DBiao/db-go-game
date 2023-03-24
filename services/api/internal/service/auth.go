@@ -28,14 +28,14 @@ type IAuthService interface {
 
 type AuthService struct {
 	userDao     dao.IUserDao
-	logicClient client.ILogicClient
+	logicClient client.IApiClient
 }
 
 func NewAuthService(AuthDao dao.IUserDao) IAuthService {
 	conf := config.GetConfig()
 	return &AuthService{
 		userDao:     AuthDao,
-		logicClient: client.NewLogicClient(conf.Etcd, conf.LogicServer, conf.Jaeger, conf.Name),
+		logicClient: client.NewApiClient(conf.Etcd, conf.LogicServer, conf.Jaeger, conf.Name),
 	}
 }
 

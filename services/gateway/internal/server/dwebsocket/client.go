@@ -67,6 +67,7 @@ func (c *Client) Close() {
 	c.conn.SetCloseHandler(func(code int, text string) error {
 		c.stop()
 		c.conn.Close()
+		ClientMap.Delete(c.uid)
 		return nil
 	})
 }
