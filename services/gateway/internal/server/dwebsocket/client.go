@@ -2,24 +2,20 @@ package dwebsocket
 
 import (
 	"github.com/gorilla/websocket"
-	"sync"
 	"sync/atomic"
 	"time"
 )
 
 type Client struct {
-	rwLock       sync.RWMutex
-	conn         *websocket.Conn
-	uid          int64  // 用户ID
-	appId        string // appID
-	onlineTs     int64  // 上线时间戳（毫秒）
-	OutChan      chan []byte
-	InChan       chan []byte
-	QuitChan     chan struct{}
-	CloseFlag    int32
-	logicServer  string
-	matchServer  string
-	battleServer string
+	//rwLock    sync.RWMutex
+	conn      *websocket.Conn
+	uid       int64  // 用户ID
+	appId     string // appID
+	onlineTs  int64  // 上线时间戳（毫秒）
+	OutChan   chan []byte
+	InChan    chan []byte
+	QuitChan  chan struct{}
+	CloseFlag int32
 }
 
 func newClient(conn *websocket.Conn, uid int64, appId string) *Client {

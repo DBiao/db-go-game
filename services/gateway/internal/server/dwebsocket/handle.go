@@ -2,6 +2,7 @@ package dwebsocket
 
 import (
 	"encoding/json"
+	"fmt"
 	"sync"
 )
 
@@ -29,8 +30,6 @@ func Register(key uint16, value HandleFunc) {
 	handlersRWMutex.Lock()
 	defer handlersRWMutex.Unlock()
 	handlers[key] = value
-
-	return
 }
 
 func getHandlers(code uint16) (value HandleFunc, ok bool) {
@@ -49,10 +48,12 @@ func Handle(client *Client, message []byte) {
 	request := &WsRequest{}
 	err := json.Unmarshal(message, request)
 	if err != nil {
+		fmt.Println(err)
 	}
 
 	data, err := json.Marshal(request.Data)
 	if err != nil {
+		fmt.Println(err)
 		return
 	}
 

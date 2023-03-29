@@ -22,10 +22,7 @@ type WServer struct {
 }
 
 func NewWServer(wsServer *conf.WsServer) *WServer {
-	var (
-		ws *WServer
-	)
-	ws = &WServer{
+	ws := &WServer{
 		port:     wsServer.Port,
 		serverId: wsServer.ServerId,
 		gin:      dgin.NewGinServer(),
