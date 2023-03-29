@@ -2,8 +2,8 @@ package dkafka
 
 import (
 	"context"
+	"db-go-game/pkg/common/dlog"
 	"github.com/Shopify/sarama"
-	"lark/pkg/common/xlog"
 	"os"
 	"os/signal"
 	"sync"
@@ -63,7 +63,7 @@ func NewMConsumerGroup(conf *MConsumerGroupConfig, topics, addrs []string, group
 	}
 	consumerGroup, err = sarama.NewConsumerGroup(addrs, groupID, config)
 	if err != nil {
-		xlog.Errorf("Error creating consumer group client: %v", err)
+		dlog.Errorf("Error creating consumer group client: %v", err)
 		return
 	}
 	group.ConsumerGroup = consumerGroup
@@ -87,11 +87,11 @@ func (mc *MConsumerGroup) RegisterConsumerGroupHandler(handler sarama.ConsumerGr
 		var err error
 		for {
 			if mc.ConsumerGroup == nil {
-				xlog.Error("consumer group is null")
+				dlog.Error("consumer group is null")
 				break
 			}
 			if err = mc.ConsumerGroup.Consume(ctx, mc.topics, handler); err != nil {
-				xlog.Errorf("Error from consumer: %v", err)
+				dlog.Errorf("Error from consumer: %v", err)
 			}
 			// check if context was cancelled, signaling that the consumer should stop
 			if ctx.Err() != nil {
@@ -141,6 +141,6 @@ func toggleConsumptionFlow(client sarama.ConsumerGroup, isPaused *bool) {
 
 func (mc *MConsumerGroup) Close() {
 	if err := mc.ConsumerGroup.Close(); err != nil {
-		xlog.Errorf("Error closing client: %v", err)
+		dlog.Errorf("Error closing client: %v", err)
 	}
 }

@@ -1,10 +1,10 @@
 package dkafka
 
 import (
+	"db-go-game/pkg/common/dlog"
+	"db-go-game/pkg/utils"
 	"github.com/Shopify/sarama"
 	"google.golang.org/protobuf/proto"
-	"lark/pkg/common/xlog"
-	"lark/pkg/utils"
 	"runtime/debug"
 )
 
@@ -27,7 +27,7 @@ func NewKafkaProducer(addr []string, topic string) *Producer {
 
 	producer, err := sarama.NewSyncProducer(p.addr, p.config) //Initialize the client
 	if err != nil {
-		xlog.Error(err.Error())
+		dlog.Error(err.Error())
 		return nil
 	}
 	p.producer = producer
@@ -37,7 +37,7 @@ func NewKafkaProducer(addr []string, topic string) *Producer {
 func (p *Producer) EnQueue(m proto.Message, key ...string) (int32, int64, error) {
 	defer func() {
 		if r := recover(); r != nil {
-			xlog.Warn(r, string(debug.Stack()))
+			dlog.Warn(r, string(debug.Stack()))
 		}
 	}()
 	msg := &sarama.ProducerMessage{}
@@ -56,7 +56,7 @@ func (p *Producer) EnQueue(m proto.Message, key ...string) (int32, int64, error)
 func (p *Producer) Push(m interface{}, key ...string) (int32, int64, error) {
 	defer func() {
 		if r := recover(); r != nil {
-			xlog.Warn(r, string(debug.Stack()))
+			dlog.Warn(r, string(debug.Stack()))
 		}
 	}()
 	msg := &sarama.ProducerMessage{}
@@ -75,6 +75,6 @@ func (p *Producer) Push(m interface{}, key ...string) (int32, int64, error) {
 func (p *Producer) Close() {
 	err := p.producer.Close()
 	if err != nil {
-		xlog.Warn(err.Error())
+		dlog.Warn(err.Error())
 	}
 }

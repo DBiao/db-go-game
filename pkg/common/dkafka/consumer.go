@@ -1,8 +1,7 @@
 package dkafka
 
 import (
-	"github.com/Shopify/sarama"
-	"lark/pkg/common/xlog"
+	"db-go-game/pkg/common/dlog"
 	"sync"
 )
 
@@ -21,14 +20,14 @@ func NewKafkaConsumer(addr []string, topic string) *Consumer {
 
 	consumer, err := sarama.NewConsumer(c.addr, nil)
 	if err != nil {
-		xlog.Error(err.Error())
+		dlog.Error(err.Error())
 		return nil
 	}
 	c.Consumer = consumer
 
 	partitionList, err := consumer.Partitions(c.Topic)
 	if err != nil {
-		xlog.Error(err.Error())
+		dlog.Error(err.Error())
 		return nil
 	}
 	c.PartitionList = partitionList
