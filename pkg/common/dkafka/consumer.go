@@ -2,6 +2,7 @@ package dkafka
 
 import (
 	"db-go-game/pkg/common/dlog"
+	"github.com/Shopify/sarama"
 	"sync"
 )
 
